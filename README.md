@@ -1,4 +1,4 @@
-# 🎨 Draw Together
+# 🎨 DrawWithMe
 
 A real-time collaborative drawing game inspired by Gartic Phone. Draw with friends on a shared canvas, chat, react, and even voice chat — all in real time.
 
