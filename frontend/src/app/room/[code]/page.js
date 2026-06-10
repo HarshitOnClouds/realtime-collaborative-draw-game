@@ -99,6 +99,11 @@ export default function Room() {
     alert('Code copied!');
   };
 
+  const handleLeave = () => {
+    socket.emit('room:leave');
+    router.push('/');
+  };
+
   const exportCanvas = () => {
     const canvas = document.getElementById('drawing-board');
     if (!canvas) return;
@@ -139,8 +144,16 @@ export default function Room() {
           </div>
         )}
         
-        <div className={`font-mono text-2xl sm:text-3xl font-bold ${timer !== null && timer <= 10 ? 'text-red-500' : 'text-white'}`}>
-          {timer !== null ? `${Math.floor(timer / 60)}:${(timer % 60).toString().padStart(2, '0')}` : '00:00'}
+        <div className="flex items-center gap-4">
+          <div className={`font-mono text-2xl sm:text-3xl font-bold ${timer !== null && timer <= 10 ? 'text-red-500' : 'text-white'}`}>
+            {timer !== null ? `${Math.floor(timer / 60)}:${(timer % 60).toString().padStart(2, '0')}` : '00:00'}
+          </div>
+          <button 
+            onClick={handleLeave}
+            className="bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500/50 px-3 py-1.5 rounded text-sm font-bold transition-colors"
+          >
+            Leave
+          </button>
         </div>
       </header>
 

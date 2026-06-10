@@ -109,17 +109,25 @@ io.on('connection', (socket) => {
         return socket.emit('error', { code: 'NOT_WAITING', message: 'Room is already in session' });
       }
 
-      /** @type {import('./types/shared.js').Player} */
-      const player = {
-        id: socket.id,
-        name: playerName,
-        peerId: '', // Client will update later
-        color: `#${Math.floor(Math.random()*16777215).toString(16)}`, // Random hex color
-        isConnected: true,
-        isSpectator: isSpectator || false,
-      };
+      const existingPlayer = room.players.find(p => p.id === socket.id);
+      let player;
 
-      room.players.push(player);
+      if (existingPlayer) {
+        existingPlayer.name = playerName;
+        existingPlayer.isSpectator = isSpectator || false;
+        existingPlayer.isConnected = true;
+        player = existingPlayer;
+      } else {
+        player = {
+          id: socket.id,
+          name: playerName,
+          peerId: '', // Client will update later
+          color: `#${Math.floor(Math.random()*16777215).toString(16)}`, // Random hex color
+          isConnected: true,
+          isSpectator: isSpectator || false,
+        };
+        room.players.push(player);
+      }
       socket.join(roomId);
       socket.data.roomId = roomId;
 
